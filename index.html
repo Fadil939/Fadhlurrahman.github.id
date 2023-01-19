@@ -74,11 +74,11 @@
               </div>
               <div class="row row justify-content-center fs-5 text-center">
                 <div class="col-md-4">
-                  <p>lulusan Smk</p>
+                  <p>Saya adalah Lulusan SMK, Tahun 2021.Saya mempunyai minat di web Programming</p>
                 </div>
 
                 <div class="col-md-4">
-                  <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore officiis tempora iure, voluptatibus natus unde ipsam deleniti corrupti ratione</p>
+                  <p>Tahun 2023.Saya ingin menjadi Seorang Profesional di ranah Fornd End develover</p>
                 </div>
               </div>
             </div>
@@ -173,6 +173,11 @@
             </div>
             <div class="row justify-content-center">
               <div class="col-md-6">
+                <div class="alert alert-success alert-dismissible fade show d-none my-alert" role="alert">
+                  <strong>Terimakasih</strong> Pesan anda sudah di terima
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
                 <form name="Sumbit-Contact-From">
                   <div class="mb-3">
                     <label for="name" class="form-label">Name Lengkap</label>
@@ -187,7 +192,12 @@
                     <textarea class="form-control" id="pesan" rows="3" name="pesan"></textarea>
                   </div>
 
-                  <button type="submit" class="btn btn-success">kirim</button>
+                  <button type="submit" class="btn btn-primary btn-kirim">kirim</button>
+
+                  <button class="btn btn-primary btn-loading d-none" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                  </button>
                 </form>
               </div>
             </div>
@@ -211,14 +221,32 @@
 
         <!-- footer end -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
         <script>
           const scriptURL = "https://script.google.com/macros/s/AKfycbxlQWHbTR_2VDV0PzWEPt0FTD1uPp3G4Ay3FTaKCMkFYf4y7AIiiVQr39nBcdOTJp7r/exec";
           const form = document.forms["Sumbit-Contact-From"];
 
+          const btnKirim = document.querySelector(".btn-kirim");
+          const btnLoading = document.querySelector(".btn-loading");
+          const myAlert = document.querySelector(".my-alert");
           form.addEventListener("submit", (e) => {
             e.preventDefault();
+            //ketika tombol kirim di click
+            //tampilkan tombol loading dan  hilangkan tombol kirim
+            btnLoading.classList.toggle("d-none");
+            btnKirim.classList.toggle("d-none");
             fetch(scriptURL, { method: "POST", body: new FormData(form) })
-              .then((response) => console.log("Success!", response))
+              .then((response) => {
+                //tampilkan tombol kirim dan  hilangkan tombol loading
+                btnLoading.classList.toggle("d-none");
+                btnKirim.classList.toggle("d-none");
+                //tampilkan alert
+                myAlert.classList.toggle("d-none");
+                //reset from
+                form.reset();
+
+                console.log("Success!", response);
+              })
               .catch((error) => console.error("Error!", error.message));
           });
         </script>
